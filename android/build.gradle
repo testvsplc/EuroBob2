@@ -1,0 +1,65 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = "28.0.3"
+        minSdkVersion = 17
+        compileSdkVersion = 28
+        targetSdkVersion = 28
+        supportLibVersion = '1.0.0-beta01'
+        versionName = "2.2.1"
+        versionCode = 24
+        googlePlayServicesVersion = '15.0.1'
+        applicationId = "com.eurobob"
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url("$rootDir/../node_modules/react-native/android")
+        }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'de.undercouch:gradle-download-task:3.1.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+apply plugin: 'de.undercouch.download'
+
+allprojects {
+    repositories {
+        google()
+        maven {
+            url 'https://maven.google.com'
+        }
+        mavenLocal()
+        jcenter()
+        maven {
+            url "$rootDir/../node_modules/react-native/android"
+        }
+        maven {
+            url 'https://jitpack.io'
+        }
+    }
+ }
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.supportLibVersion
+            }
+        }
+    }
+}
